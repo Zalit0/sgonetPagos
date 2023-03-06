@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "aos": "^3.0.0-beta.6",
     "firebase": "^9.17.2",
     "pinia": "^2.0.33",
     "vue": "^3.2.47",
