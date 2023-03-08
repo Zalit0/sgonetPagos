@@ -15,6 +15,8 @@
                 
                 <p class="mbr-text mbr-fonts-style display-7"><strong>RECUERDE:</strong> Al no abonar a termino&nbsp;el <strong>PAGO</strong>&nbsp; el <strong>SISTEMA SUSPENDERÁ</strong> automáticamente el servicio.
 <br>El sistema se normalizara una vez realizado el <strong>PAGO</strong>&nbsp;automáticamente luego de 5 minutos.<br></p>
+
+<h4>Probando subir rama</h4>
                 
             </div>
         </div>
