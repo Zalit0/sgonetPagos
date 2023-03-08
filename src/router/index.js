@@ -8,6 +8,11 @@ const router = createRouter({
       name: 'home',
       component: () => import('../views/HomeView.vue'),
     },
+    {
+      path:'/client-area',
+      name:'clientarea',
+      component:()=>import('../views/ClientArea.vue')
+    }
   ],
 });
 export default router;

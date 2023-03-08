@@ -5,6 +5,7 @@ const { funciona } = userStore;
 </script>
 
 <template>
+  
   <h1>Hola Mundo</h1>
 
   {{ funciona }}
