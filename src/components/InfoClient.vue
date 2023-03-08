@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="col-12 col-lg-6">
-            <div class="item mbr-flex">
+            <div class="item mbr-flex" data-aos="fade-left" data-aos-easing="ease-in-sine">
                 <div class="icon-box">
                     <span class="mbr-iconfont mobi-mbri-globe-2 mobi-mbri"></span>
                 </div>
@@ -30,7 +30,7 @@
                     <h5 class="icon-text mbr-black mbr-fonts-style display-4"><a href="https://onnella.santiagonet.com.ar/OLD/" class="text-secondary" target="_blank"><strong>Ver pagos Anteriores</strong></a></h5>
                 </div>
             </div>
-            <div class="item mbr-flex">
+            <div class="item mbr-flex" data-aos="fade-right" data-aos-offset="300" data-aos-delay="200" data-aos-easing="ease-in-sine">
                 <div class="icon-box">
                     <span class="mbr-iconfont mobi-mbri-update mobi-mbri"></span>
                 </div>
@@ -40,11 +40,11 @@
                     <h5 class="icon-text mbr-black mbr-fonts-style display-4">Consultas</h5>
                 </div>
             </div>
-            <div class="item mbr-flex">
+            <div class="item mbr-flex" data-aos="fade-left" data-aos-offset="300" data-aos-delay="400" data-aos-easing="ease-in-sine">
                 <div class="icon-box">
                     <span class="mbr-iconfont mobi-mbri-user-2 mobi-mbri"></span>
                 </div>
-                <div class="text-box">
+                <div class="text-box" >
                     <h4 class="icon-title mbr-black mbr-fonts-style display-7"><strong>PAGO POR TRANSFERENCIA</strong></h4>
                     <h5 class="icon-text mbr-black mbr-fonts-style display-4"><strong>CVU</strong>: 0000003100079804271431
 <div><strong>ALIAS</strong>: santiagonet.mp</div></h5>
