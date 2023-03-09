@@ -6,7 +6,7 @@ import { collection, getDocs, query, where, addDoc, collectionGroup } from 'fire
 import { storeToRefs } from 'pinia';
 const userStore = useUserStore();
 const { getCliente } = userStore
-const { funciona, cliente } = storeToRefs(userStore);
+const { cliente } = storeToRefs(userStore);
 const dni = ref(null)
 // const client = ref(null);
 // const getClient = async () => {
@@ -30,7 +30,6 @@ const dni = ref(null)
 </script>
 
 <template>
-  <div id="liveAlertPlaceholder"></div>
   <div class="container p-5" >
   <div class="row">
   <div class="col-12 text-center">

@@ -17,6 +17,7 @@ const {loading}=storeToRefs(userStore)
   <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
 </div>
   <div v-if="!loading" class="container">
+    <div id="liveAlertPlaceholder"></div>
 <RouterView/>
   </div>
 <FooterComponent/>
