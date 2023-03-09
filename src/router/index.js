@@ -4,11 +4,11 @@ import { useUserStore } from '../stores/userStore';
 
 const requireClient = async (to, from, next) => {
   const userStore = useUserStore();
-  const {cliente}=storeToRefs(userStore)
+  const { cliente } = storeToRefs(userStore);
   if (cliente.value) {
-      next();
+    next();
   } else {
-      next("/");
+    next('/');
   }
   userStore.loading = false;
 };
@@ -21,12 +21,16 @@ const router = createRouter({
       component: () => import('../views/HomeView.vue'),
     },
     {
-      path:'/client-area',
-      name:'clientarea',
-      component:()=>import('../views/ClientArea.vue'),
-      beforeEnter: requireClient
-
-    }
+      path: '/client-area',
+      name: 'clientarea',
+      component: () => import('../views/ClientArea.vue'),
+      beforeEnter: requireClient,
+    },
+    {
+      path: '/campo-prueba',
+      name: 'campoprueba',
+      component: () => import('../views/CampoPrueba.vue'),
+    },
   ],
 });
 export default router;
