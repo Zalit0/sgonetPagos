@@ -12,11 +12,6 @@ import PagoMes from '../components/PagoMes.vue';
         
         <div class="row mt-4">
             <PagoMes/>
-            <PagoMes/>
-            <PagoMes/>
-            <PagoMes/>
-            <PagoMes/>
-            <PagoMes/>
         </div>
     </div>
 </section>   

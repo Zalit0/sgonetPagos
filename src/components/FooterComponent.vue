@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-    <footer data-bs-version="5.1" class="footer3 cid-s48P1Icc8J" once="footers" id="footer3-i">
+    <footer data-bs-version="5.1" class="footer3 cid-s48P1Icc8J mt-4" once="footers" id="footer3-i">
 
     
 
@@ -22,3 +22,17 @@
         
     
 </template>
+<style>
+.footer3{
+position: absolute;
+bottom: 0px;
+width: 100%;
+height: 30px;
+}
+.row-copirayt{
+    position: relative;
+    bottom: 10px;
+}
+
+
+</style>
