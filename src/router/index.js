@@ -3,11 +3,12 @@ import { createRouter, useRoute, createWebHistory } from 'vue-router';
 import { useUserStore } from '../stores/userStore';
 
 const requireClient = async (to, from, next) => {
-  const route = useRoute();
-  if (route.params.id == undefined) {
-    next('/');
-  } else {
+  const userStore = useUserStore();
+  const { cliente } = storeToRefs(userStore);
+  if (cliente.value) {
     next();
+  } else {
+    next('/');
   }
   userStore.loading = false;
 };
