@@ -1,4 +1,11 @@
-import { getDoc, doc, query, collection, getDocs } from 'firebase/firestore';
+import {
+  getDoc,
+  doc,
+  query,
+  collection,
+  getDocs,
+  setDoc,
+} from 'firebase/firestore';
 import { ref } from 'vue';
 import { db } from '../firebaseConfig';
 const resultado = ref(null);
@@ -8,6 +15,7 @@ export const useFirebaseHook = () => {
   const getColeccion = async (coleccion) => {
     const q = query(collection(db, coleccion));
     try {
+      resultadoArray.value = [];
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         resultadoArray.value.push({ id: doc.id, ...doc.data() });
@@ -51,7 +59,14 @@ export const useFirebaseHook = () => {
       console.log(e);
     }
   };
-  const addUpdateDoc = async (coleccion, docID) => {};
+  const addDoc = async (coleccion, docID, obj) => {
+    try {
+      const cliente = doc(db, coleccion, docID);
+      await setDoc(cliente, obj);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-  return { getColeccion, getSingle, resultado, resultadoArray };
+  return { getColeccion, getSingle, resultado, resultadoArray, addDoc };
 };
