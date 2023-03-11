@@ -33,9 +33,14 @@ const router = createRouter({
       component: () => import('../views/CampoPrueba.vue'),
     },
     {
-      path: '/campo-prueba/:id',
-      name: 'campoprueba',
-      component: () => import('../views/CampoPrueba.vue'),
+      path: '/editClient',
+      name: 'editarCliente',
+      component: () => import('../views/AgregaroEditarCliente.vue'),
+    },
+    {
+      path: '/editClient/:id',
+      name: 'editarCliente',
+      component: () => import('../views/AgregaroEditarCliente.vue'),
     },
   ],
 });

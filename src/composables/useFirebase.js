@@ -12,6 +12,22 @@ const resultado = ref(null);
 const resultadoArray = ref([]);
 
 export const useFirebaseHook = () => {
+  const customAlert = (msj, tipo) => {
+    const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+
+    const alert = (message, type) => {
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = [
+        `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+        `   <div>${message}</div>`,
+        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+        '</div>',
+      ].join('');
+
+      alertPlaceholder.append(wrapper);
+    };
+    alert(msj, tipo);
+  };
   const getColeccion = async (coleccion) => {
     const q = query(collection(db, coleccion));
     try {
@@ -68,5 +84,12 @@ export const useFirebaseHook = () => {
     }
   };
 
-  return { getColeccion, getSingle, resultado, resultadoArray, addDoc };
+  return {
+    getColeccion,
+    getSingle,
+    resultado,
+    resultadoArray,
+    addDoc,
+    customAlert,
+  };
 };
