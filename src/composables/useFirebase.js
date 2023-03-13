@@ -36,6 +36,7 @@ export const useFirebaseHook = () => {
       querySnapshot.forEach((doc) => {
         resultadoArray.value.push({ id: doc.id, ...doc.data() });
       });
+      return resultadoArray.value
     } catch (e) {
       alert(e);
     }
@@ -88,7 +89,6 @@ export const useFirebaseHook = () => {
     getColeccion,
     getSingle,
     resultado,
-    resultadoArray,
     addDoc,
     customAlert,
   };

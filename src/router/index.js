@@ -34,7 +34,7 @@ const router = createRouter({
     },
     {
       path: '/editClient',
-      name: 'editarCliente',
+      name: 'agregarCliente',
       component: () => import('../views/AgregaroEditarCliente.vue'),
     },
     {

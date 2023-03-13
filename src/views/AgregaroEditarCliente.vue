@@ -26,11 +26,9 @@ const parametros= route.params.id == undefined ? true:false
 //cargar Barrios
 async function cargarDatos(){
   try{
-    await getColeccion('barrios')
-    barrios.value=resultadoArray.value
+    barrios.value=await getColeccion('barrios')
     if(barrios){
-      await getColeccion('abonos')
-      abonos.value=resultadoArray.value
+      abonos.value=await getColeccion('abonos')
     }
   }catch(e){
     console.log(`Error en cargarAbonos ${e}`)
