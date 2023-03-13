@@ -4,16 +4,9 @@ import { useFirebaseHook } from "../composables/useFirebase";
 
 export const useAdminStore = defineStore("admin", () => {
   const firebase = useFirebaseHook();
-  const { getColeccion, resultadoArray } = firebase;
+  const { getColeccion} = firebase;
   const clientes = ref([]);
-  const searchQuery = ref("");
   
-  const clientesFiltrados = computed(() => {
-    clientes.value.filter((item) => {
-      return item.name.toLowerCase().includes(searchQuery.value.toLowerCase());
-    });
-  });
-
   const cargarClientes = async () => {
     try {
       clientes.value = await getColeccion("clientes");
@@ -27,5 +20,5 @@ export const useAdminStore = defineStore("admin", () => {
   
 
 
-  return { clientes, clientesFiltrados };
+  return { clientes, cargarClientes };
 });

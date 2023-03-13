@@ -1,14 +1,20 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router'
 import { useFirebaseHook } from '../composables/useFirebase';
 import {db} from '../firebaseConfig'
 import {getDoc,doc} from 'firebase/firestore'
+import { useAdminStore } from '../stores/adminStore';
+import { storeToRefs } from 'pinia';
+
 
 const route=useRoute()
 const router=useRouter()
 const firebaseHook = useFirebaseHook();
-const { getSingle,getColeccion,resultadoArray, resultado, addDoc, customAlert } = firebaseHook;
+const {getColeccion, addDoc, customAlert } = firebaseHook;
+const adminStore=useAdminStore()
+const {clientes}=storeToRefs(adminStore)
+const {cargarClientes} = adminStore
 const barrios= ref(null)
 const zonas= ref(null)
 const abonos= ref(null)
@@ -42,6 +48,8 @@ async function agregarCliente(id,data){
     const consulta = await getDoc(doc(db, "clientes", id));
       if (consulta.data() == undefined) {
         await addDoc("clientes",id,data)
+        clientes.value.push(data)
+        router.push('/campo-prueba')
       } else {
         alert('El DNI ya se encuentra registrado');
       }
@@ -53,6 +61,9 @@ async function agregarCliente(id,data){
 async function modificarCliente(id, data){
   try{
       await addDoc("clientes",id,data)
+      clientes.value= cargarClientes()
+      setTimeout(()=>router.push('/campo-prueba'), 2000 )
+      
   }catch (e){
     console.log(e)
   }
@@ -76,7 +87,7 @@ const agregarZona=(i)=>{
       if(route.params.id!=undefined){
         const consulta = await getDoc(doc(db, "clientes", route.params.id));
           if (consulta.data() == undefined) {
-            router.push('/')
+            router.push('/campo-prueba')
             alert('Cliente inexistente')
           } else {
             cliente.value={id:consulta.id,...consulta.data()}
