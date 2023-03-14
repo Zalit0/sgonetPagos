@@ -13,11 +13,9 @@ const router=useRouter()
 const firebaseHook = useFirebaseHook();
 const {getColeccion, addDoc, customAlert } = firebaseHook;
 const adminStore=useAdminStore()
-const {clientes}=storeToRefs(adminStore)
+const {clientes, barrios, abonos}=storeToRefs(adminStore)
 const {cargarClientes} = adminStore
-const barrios= ref(null)
 const zonas= ref(null)
-const abonos= ref(null)
 const cliente=ref({id:null,name:null,domicilio:null,barrio:null,zona:null,abono:null,tel:null})
 // const name = ref(null);
 // const domicilio = ref(null);
@@ -28,19 +26,21 @@ const cliente=ref({id:null,name:null,domicilio:null,barrio:null,zona:null,abono:
 const parametros= route.params.id == undefined ? true:false
 
 
-
-//cargar Barrios
-async function cargarDatos(){
-  try{
-    barrios.value=await getColeccion('barrios')
-    if(barrios){
-      abonos.value=await getColeccion('abonos')
-    }
-  }catch(e){
-    console.log(`Error en cargarAbonos ${e}`)
-  }
+//Si la ruta tiene parametros comprobamos si existe el cliente
+async function comprobarCliente(){
+  if(route.params.id!=undefined){
+    const consulta = await getDoc(doc(db, "clientes", route.params.id));
+      if (consulta.data() == undefined) {
+        router.push('/campo-prueba')
+        alert('Cliente inexistente')
+      } else {
+        cliente.value={id:consulta.id,...consulta.data()}
+        agregarZona(cliente.value.barrio)
+        console.log('El cliente esta listo para ser editado');
+      }
 }
-cargarDatos();
+}
+comprobarCliente()
 
 //cargamos un nuevo cliente
 async function agregarCliente(id,data){
@@ -82,21 +82,6 @@ const agregarZona=(i)=>{
   }; 
   })
 }
-    //Si la ruta tiene parametros comprobamos si existe el cliente
-    async function comprobarCliente(){
-      if(route.params.id!=undefined){
-        const consulta = await getDoc(doc(db, "clientes", route.params.id));
-          if (consulta.data() == undefined) {
-            router.push('/campo-prueba')
-            alert('Cliente inexistente')
-          } else {
-            cliente.value={id:consulta.id,...consulta.data()}
-            agregarZona(cliente.value.barrio)
-            console.log('El cliente esta listo para ser editado');
-          }
-    }
-    }
-    comprobarCliente()
 
     const agregaroEditar=()=>{
       if (parametros){
@@ -216,15 +201,15 @@ const agregarZona=(i)=>{
     </div>
 
       <!-- Submit Button -->
-    <div class="form-group" v-if="route.params.id">
-      <button type="submit" class="btn btn-warning" id:>
+    <div class="input-group" >
+      <button type="submit" class="btn btn-success me-2" v-if="route.params.id" id:>
         Editar Cliente
       </button>
-    </div>
-     <div class="form-group" v-else>
-      <button type="submit" class="btn btn-success" id:>
+      
+      <button type="submit" class="btn btn-success" v-else id:>
         Registrar Nuevo Cliente
       </button>
+    <button @click="$router.push('/campo-prueba')" class="btn btn-warning"> Volver </button>
     </div>
   </form>
 </template>

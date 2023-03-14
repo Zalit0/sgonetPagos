@@ -9,7 +9,7 @@ import {
 import { ref } from 'vue';
 import { db } from '../firebaseConfig';
 const resultado = ref(null);
-const resultadoArray = ref([]);
+
 
 export const useFirebaseHook = () => {
   const customAlert = (msj, tipo) => {
@@ -20,23 +20,24 @@ export const useFirebaseHook = () => {
       wrapper.innerHTML = [
         `<div class="alert alert-${type} alert-dismissible" role="alert">`,
         `   <div>${message}</div>`,
-        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>',
         '</div>',
       ].join('');
 
       alertPlaceholder.append(wrapper);
     };
     alert(msj, tipo);
+   
   };
   const getColeccion = async (coleccion) => {
     const q = query(collection(db, coleccion));
     try {
-      resultadoArray.value = [];
+      let resultadoArray=[]
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        resultadoArray.value.push({ id: doc.id, ...doc.data() });
+        resultadoArray.push({ id: doc.id, ...doc.data() });
       });
-      return resultadoArray.value
+      return resultadoArray
     } catch (e) {
       alert(e);
     }

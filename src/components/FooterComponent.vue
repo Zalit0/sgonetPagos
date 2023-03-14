@@ -30,7 +30,7 @@ const anio = new Date().getFullYear();
   </footer>
 </template>
 <style>
-.footer3 {
+/* .footer3 {
   position: absolute;
   bottom: 0px;
   width: 100%;
@@ -39,5 +39,5 @@ const anio = new Date().getFullYear();
 .row-copirayt {
   position: relative;
   bottom: 10px;
-}
+} */
 </style>
