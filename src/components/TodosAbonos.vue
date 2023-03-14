@@ -3,11 +3,12 @@ import { ref } from 'vue';
 import { useAdminStore } from '../stores/adminStore';
 const adminStore=useAdminStore()
 const {ordenar}=adminStore
-defineProps(["abonos"])
+const props = defineProps({abonos:Array})
 const editar=ref(false)
 const guardar=()=>{
     ordenar()
     editar.value= !editar.value
+    console.log(props.abonos)
 }
 </script>
 
@@ -18,6 +19,7 @@ const guardar=()=>{
   <table class="table table-hover table-sm table-bordered">
   <thead class="table-dark">
     <tr>
+      <th scope="col">ID</th>
       <th scope="col">Abono</th>
       <th scope="col">Precio</th>
       <th scope="col">Bajada</th>
@@ -26,6 +28,7 @@ const guardar=()=>{
   </thead>
   <tbody>
     <tr v-for="(abono, index) in abonos" :key="abono.id">
+      <td><input type="text" class="form-control" v-model="abono.id" v-if="editar" :disabled="abono.id!=''"><span v-if="!editar">{{ abono.id }}</span></td>
       <th  scope="row"><input type="text" class="form-control" v-model="abono.name" v-if="editar"><span v-if="!editar">{{ abono.name }}</span></th>
       <td><input type="text" class="form-control" v-model="abono.precio" v-if="editar"><span v-if="!editar">${{ abono.precio }}</span></td>
       <td><input type="text" class="form-control" v-model="abono.bajada" v-if="editar"><span v-if="!editar">{{ abono.bajada }}</span></td>
