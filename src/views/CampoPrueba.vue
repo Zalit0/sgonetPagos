@@ -7,11 +7,10 @@ const {clientes, abonos, barrios} =storeToRefs(adminStore)
 </script>
 
 <template>
-  {{ abonos }}
   <div class="container">
   <div class="row">
   <div class="col-6">
-  <TodosAbonos :abonos="abonos"/>
+  <TodosAbonos/>
   </div>
   <div class="col-6">
   <TodosBarrios :barrios="barrios"></TodosBarrios>

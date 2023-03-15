@@ -15,11 +15,10 @@ export const useUserStore = defineStore('users', () => {
   async function getCliente(dni) {
     loading.value = true;
     try {
-      await getSingle('clientes', dni);
-      cliente.value = resultado.value;
+      cliente.value=await getSingle('clientes', dni);
       if (cliente.value) {
-        await getSingle('abonos', cliente.value.abono);
-        cliente.value.abono = resultado.value.name;
+        const resultado = await getSingle('abonos', cliente.value.abono);
+        cliente.value.abono = resultado.name;
         router.push('/client-area');
       }
     } catch (error) {

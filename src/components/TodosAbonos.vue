@@ -1,37 +1,14 @@
 <script setup>
 import { ref } from 'vue';
 import { useAdminStore } from '../stores/adminStore';
-const adminStore=useAdminStore()
-const {ordenar}=adminStore
-const props = defineProps({abonos:Array})
-const editar=ref(false)
-const guardar=()=>{
-    ordenar()
-    editar.value= !editar.value
-    console.log(props.abonos)
-}
+import { storeToRefs } from 'pinia';
 
-//agregamos un nuevo abono al array abonos
-const agregarAbono=()=>{
-  //preguntamos la cantidad de megas y la ponemos en el id
-  let id=prompt('De cuantos megas es el nuevo abono?');
-  //si el valor colocado es un numero continuamos 
-  if (!isNaN(id)){
-    id = id.trim()
-    const even = (element) => element.id === id;
-    //comprobamos si el Id ya existe
-    if(!props.abonos.some(even)){
-      props.abonos.push({id:id ,name:id+' Megas',precio:'',subida:'',bajada:''})
-    }
-    else{
-      alert("El id ya existe")
-    }
-  }
-  //si no es un numero alertamos
-  else{
-    alert('Debes colocar un numero')
-  }
-}
+const adminStore=useAdminStore()
+const {abonos} = storeToRefs(adminStore)
+const {eliminarAbono, agregarAbono}=adminStore
+const editar=ref(false)
+   
+    
 </script>
 
 <template>
@@ -41,27 +18,25 @@ const agregarAbono=()=>{
   <table class="table table-hover table-sm table-bordered">
   <thead class="table-dark">
     <tr>
-      <th scope="col">ID</th>
       <th scope="col">Abono</th>
       <th scope="col">Precio</th>
       <th scope="col">Bajada</th>
       <th scope="col">Subida</th>
+      <th scope="col"></th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class="align-middle text-center">
     <tr v-for="(abono, index) in abonos" :key="abono.id">
-      <td><input type="text" class="form-control" v-model="abono.id" v-if="editar" disabled><span v-if="!editar">{{ abono.id }}</span></td>
-      <th  scope="row"><input type="text" class="form-control" v-model="abono.name" v-if="editar" disabled><span v-if="!editar">{{ abono.name }}</span></th>
-      <td><input type="text" class="form-control" v-model="abono.precio" v-if="editar"><span v-if="!editar">${{ abono.precio }}</span></td>
-      <td><input type="text" class="form-control" v-model="abono.bajada" v-if="editar"><span v-if="!editar">{{ abono.bajada }} MB</span></td>
-      <td><input type="text" class="form-control" v-model="abono.subida" v-if="editar"><span v-if="!editar">{{ abono.subida }} MB</span></td>
+      <th scope="row"><span >{{ abono.name }}</span></th>
+      <td><span v-if="abono.precio==0">Proximamente</span><span v-else>${{ abono.precio }}</span></td>
+      <td><span>{{ abono.bajada }} MB</span></td>
+      <td><span>{{ abono.subida }} MB</span></td>
+      <td><span><button class="btn btn-danger btn-sm px-1 py-0" @click="eliminarAbono(abono.id)">Eliminar</button></span></td>
     </tr>
     </tbody>
   </table>
     <div class="btn-group" role="group" >
-    <button class="btn btn-warning btn-sm" v-if="!editar" @click="editar= !editar">Editar</button>
-    <button class="btn btn-danger btn-sm text-center" v-if="editar" @click="agregarAbono">Agregar Abono</button> 
-    <button class="btn btn-warning btn-sm text-center" v-if="editar" @click="guardar">Guardar</button> 
+    <button class="btn btn-success btn-sm text-center"  @click="agregarAbono">Agregar Abono</button>    
     </div>
   </div>
 </template>
