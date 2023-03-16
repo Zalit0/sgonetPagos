@@ -133,7 +133,6 @@ const agregarZona=(i)=>{
       <label for="name_id" class="control-label fw-bold">Nombre Completo</label>
       <input
       required
-      :disabled="!parametros"
         v-model="cliente.name"
         id="name_id"
         type="text"
