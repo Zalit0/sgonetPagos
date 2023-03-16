@@ -1,13 +1,10 @@
 <script setup>
-import { ref } from 'vue';
 import { useAdminStore } from '../stores/adminStore';
 import { storeToRefs } from 'pinia';
 
 const adminStore=useAdminStore()
 const {abonos} = storeToRefs(adminStore)
-const {eliminarAbono, agregarAbono}=adminStore
-const editar=ref(false)
-   
+const {eliminarAbono, agregarAbono}=adminStore  
     
 </script>
 

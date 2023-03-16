@@ -2,7 +2,7 @@
 import { storeToRefs } from 'pinia';
 import { useAdminStore } from '../stores/adminStore';
 const adminStore=useAdminStore()
-const {clientes, abonos, barrios} =storeToRefs(adminStore)
+const {clientes} =storeToRefs(adminStore)
 
 </script>
 
@@ -13,7 +13,7 @@ const {clientes, abonos, barrios} =storeToRefs(adminStore)
   <TodosAbonos/>
   </div>
   <div class="col-6">
-  <TodosBarrios :barrios="barrios"></TodosBarrios>
+  <TodosBarrios></TodosBarrios>
   </div>
   </div>
   <TodosClientes :clientes="clientes"></TodosClientes>

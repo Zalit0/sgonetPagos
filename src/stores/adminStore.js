@@ -1,5 +1,6 @@
+import _default from "ant-design-vue";
 import { defineStore } from "pinia";
-import { ref, computed, onBeforeMount } from "vue";
+import { ref, onBeforeMount } from "vue";
 import { useFirebaseHook } from "../composables/useFirebase";
 
 export const useAdminStore = defineStore("admin", () => {
@@ -75,6 +76,7 @@ const agregarAbono=()=>{
   //preguntamos la cantidad de megas y la ponemos en el id
   let id=prompt('De cuantos megas es el nuevo abono?');
   id = id.trim()
+  if (id==null){return} // si preciona el boton cancelar paramos la ejecucion del codigo
     while (id == null || /\D/.test(id) || id == "") {
     id = prompt("Solo ingrese numeros. De cuantos megas es el nuevo abono?: ");
   };
@@ -88,18 +90,21 @@ const agregarAbono=()=>{
       return
     }
     let precio=prompt('Precio?');
+    if (precio==null){return} // si preciona el boton cancelar paramos la ejecucion del codigo
     precio = precio.trim()
     while (precio == null || /\D/.test(precio) || precio == "") {
     
     precio = prompt("Solo ingrese numeros. Ingrese el Precio: ");
     };
     let bajada=prompt('Cuantos megas de Bajada?');
+    if (bajada==null){return} // si preciona el boton cancelar paramos la ejecucion del codigo
     bajada = bajada.trim()
     while (bajada == null || /\D/.test(bajada) || bajada == "") {
     
     bajada = prompt("Solo ingrese numeros. Ingrese los megas de Bajada: ");
     };
     let subida=prompt('Cuantos megas de Subida?');
+    if (subida==null){return} // si preciona el boton cancelar paramos la ejecucion del codigo
     subida = subida.trim()
     while (subida == null || /\D/.test(subida) || subida == "") {
     
@@ -116,5 +121,42 @@ borrarDoc("abonos",i)
   abonos.value=abonos.value.filter(element => element.id != i)
 }
 
-  return { clientes, barrios, abonos, cargarClientes,ordenar, eliminarAbono, agregarAbono };
+const agregarBarrio=async ()=>{
+try {
+  let barrio=prompt('Como se llama el barrio?')
+  barrio=barrio.trim()
+  if (barrio==null){return} // si preciona el boton cancelar paramos la ejecucion del codigo
+  let barrioObjeto={name:barrio}
+  barrio=barrio.toLocaleLowerCase()
+  barrio=barrio.replace(' ','-')
+  barrioObjeto.id=barrio
+  let zona=prompt('Agrega una zona.')
+  if (zona==null){
+    alert('Debes ingresar al menos una zona')
+    return} // si preciona el boton cancelar paramos la ejecucion del codigo
+  zona=zona.trim()
+  barrioObjeto.zonas=[zona.toUpperCase()]
+  let loop=true
+do {
+  let zona2=prompt('Deseas agregar otra zona? Si no quieres agregar mas presiona Cancelar.')
+  if(zona2){
+  zona2=zona2.trim()
+  zona2=zona2.toUpperCase()
+  if(barrioObjeto.zonas.indexOf(zona2) > -1){
+    alert('La zona ya existe')
+  }else{
+    barrioObjeto.zonas.push(zona2)
+    zona2=null
+  }
+}else{loop=false}
+} while (loop);
+  const constructor={name:barrioObjeto.name,zonas:barrioObjeto.zonas}
+  await addDoc('barrios',barrioObjeto.id,constructor)
+  barrios.value.push(barrioObjeto)
+} catch (error) {
+  alert(e)
+}
+}
+
+  return { clientes, barrios, abonos, cargarClientes,ordenar, eliminarAbono, agregarAbono, agregarBarrio, cargarDatos };
 });
