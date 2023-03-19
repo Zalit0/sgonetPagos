@@ -9,6 +9,10 @@ export const useAdminStore = defineStore('admin', () => {
   const clientes = ref([]);
   const barrios = ref([]);
   const abonos = ref([]);
+  const ctaCte = ref([]);
+  const loading= ref(false)
+
+
 
   const cargarClientes = async () => {
     try {
@@ -31,21 +35,32 @@ export const useAdminStore = defineStore('admin', () => {
   };
 
   async function cargarDatos() {
+    loading.value=true
     try {
+      clientes.value = await getColeccion('clientes');
       barrios.value = await getColeccion('barrios');
+      ctaCte.value= await getColeccion('facturas')
       if (barrios) {
         abonos.value = await getColeccion('abonos');
         ordenar();
       }
     } catch (e) {
       console.log(`Error en cargarAbonos ${e}`);
+    }finally{
+      loading.value=false
+    }
+  }
+  async function cargarCtaCte(){
+    try {
+      ctaCte.value= await getColeccion('facturas')
+    } catch (error) {
+      console.log(error)
     }
   }
 
   onBeforeMount(() => {
-    cargarClientes();
     cargarDatos();
-  });
+    });
 
   const guardarAbono = async () => {
     try {
@@ -126,8 +141,13 @@ export const useAdminStore = defineStore('admin', () => {
   };
 
   const eliminarAbono = (i) => {
-    borrarDoc('abonos', i);
-    abonos.value = abonos.value.filter((element) => element.id != i);
+    if (confirm('¿Estás seguro que deseas eliminar este abono?')) {
+      // Si el usuario hace clic en "Aceptar", realiza la acción
+      borrarDoc('abonos', i);
+      abonos.value = abonos.value.filter((element) => element.id != i);
+    } else {
+      // Si el usuario hace clic en "Cancelar", no hace nada
+    }
   };
 
   const agregarBarrio = async () => {
@@ -181,6 +201,8 @@ export const useAdminStore = defineStore('admin', () => {
     clientes,
     barrios,
     abonos,
+    ctaCte,
+    loading,
     cargarClientes,
     ordenar,
     eliminarAbono,

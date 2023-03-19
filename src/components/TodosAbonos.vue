@@ -5,14 +5,17 @@ import { storeToRefs } from 'pinia';
 const adminStore=useAdminStore()
 const {abonos} = storeToRefs(adminStore)
 const {eliminarAbono, agregarAbono}=adminStore  
-    
+
 </script>
 
 <template>
   
-        <h2>Abonos</h2>
-        <div class="container">
-  <table class="table table-hover table-sm table-bordered">
+        <div class="table-responsive">
+  <div class="button-group d-flex justify-content-between align-items-center bg-dark  mt-2">
+        <h2 class="m-0 ms-4 text-white">Abonos</h2>
+  <button class="btn btn-success btn-sm text-center"  @click="agregarAbono">Agregar Abono</button>    
+  </div>
+  <table class="table table-hover table-sm table-bordered table-responsive">
   <thead class="table-dark">
     <tr>
       <th scope="col">Abono</th>
@@ -32,8 +35,5 @@ const {eliminarAbono, agregarAbono}=adminStore
     </tr>
     </tbody>
   </table>
-    <div class="btn-group" role="group" >
-    <button class="btn btn-success btn-sm text-center"  @click="agregarAbono">Agregar Abono</button>    
-    </div>
   </div>
 </template>

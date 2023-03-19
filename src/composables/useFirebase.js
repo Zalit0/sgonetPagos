@@ -6,39 +6,37 @@ import {
   getDocs,
   setDoc,
   deleteDoc,
-} from 'firebase/firestore';
-import { ref } from 'vue';
-import { db } from '../firebaseConfig';
+} from "firebase/firestore";
+import { ref } from "vue";
+import { db } from "../firebaseConfig";
 const resultado = ref(null);
-
 
 export const useFirebaseHook = () => {
   const customAlert = (msj, tipo) => {
-    const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+    const alertPlaceholder = document.getElementById("liveAlertPlaceholder");
 
     const alert = (message, type) => {
-      const wrapper = document.createElement('div');
+      const wrapper = document.createElement("div");
       wrapper.innerHTML = [
         `<div class="alert alert-${type} alert-dismissible" role="alert">`,
         `   <div>${message}</div>`,
         '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>',
-        '</div>',
-      ].join('');
+        "</div>",
+      ].join("");
 
       alertPlaceholder.append(wrapper);
     };
     alert(msj, tipo);
-   
   };
   const getColeccion = async (coleccion) => {
     const q = query(collection(db, coleccion));
     try {
-      let resultadoArray=[]
+      let resultadoArray = [];
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         resultadoArray.push({ id: doc.id, ...doc.data() });
       });
-      return resultadoArray
+      return resultadoArray;
     } catch (e) {
       alert(e);
     }
@@ -48,12 +46,12 @@ export const useFirebaseHook = () => {
       const docRef = doc(db, coleccion, docID);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        console.log('returnando objeto')
+        console.log("returnando objeto");
         return { id: docSnap.id, ...docSnap.data() };
       } else {
-        console.log("returnando false")
-        return false    
-        };
+        console.log("returnando false");
+        return false;
+      }
     } catch (e) {
       console.log(e);
     }
@@ -66,14 +64,28 @@ export const useFirebaseHook = () => {
       console.log(e);
     }
   };
-  const borrarDoc = async (coleccion, docID)=>{
+  const borrarDoc = async (coleccion, docID) => {
     try {
-      deleteDoc(doc(db,coleccion,docID))
-      console.log('documento Borrado')
+      deleteDoc(doc(db, coleccion, docID));
+      console.log("documento Borrado");
     } catch (error) {
-      alert("El documento no pudo eliminarse "+error)
+      alert("El documento no pudo eliminarse " + error);
     }
-  }
+  };
+  const cargarCtaCte = async (cliente)=>{
+    const q = query(collection(db, `clientes/${cliente}/facturas`));
+    try {
+      let resultadoArray = [];
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        resultadoArray.push({ id: doc.id, ...doc.data() });
+      });
+      return resultadoArray;
+    } catch (e) {
+      alert(e);
+    }
+}
+
 
   return {
     getColeccion,
@@ -81,6 +93,7 @@ export const useFirebaseHook = () => {
     resultado,
     addDoc,
     customAlert,
-    borrarDoc
+    borrarDoc,
+    cargarCtaCte,
   };
 };

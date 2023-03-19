@@ -5,7 +5,7 @@ const anio = new Date().getFullYear();
 <template>
   <footer
     data-bs-version="5.1"
-    class="footer3 cid-s48P1Icc8J mt-4"
+    class="footer3 cid-s48P1Icc8J mt-4 position-sticky bottom-0"
     once="footers"
     id="footer3-i"
   >

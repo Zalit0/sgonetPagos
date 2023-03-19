@@ -31,7 +31,7 @@ async function comprobarCliente(){
   if(route.params.id!=undefined){
     const consulta = await getDoc(doc(db, "clientes", route.params.id));
       if (consulta.data() == undefined) {
-        router.push('/campo-prueba')
+        router.push('/admin')
         alert('Cliente inexistente')
       } else {
         cliente.value={id:consulta.id,...consulta.data()}
@@ -49,7 +49,7 @@ async function agregarCliente(id,data){
       if (consulta.data() == undefined) {
         await addDoc("clientes",id,data)
         clientes.value.push(data)
-        router.push('/campo-prueba')
+        router.push('/admin')
       } else {
         alert('El DNI ya se encuentra registrado');
       }
@@ -62,7 +62,7 @@ async function modificarCliente(id, data){
   try{
       await addDoc("clientes",id,data)
       clientes.value= cargarClientes()
-      setTimeout(()=>router.push('/campo-prueba'), 2000 )
+      setTimeout(()=>router.push('/admin'), 2000 )
       
   }catch (e){
     console.log(e)
@@ -208,7 +208,7 @@ const agregarZona=(i)=>{
       <button type="submit" class="btn btn-success" v-else id:>
         Registrar Nuevo Cliente
       </button>
-    <button @click="$router.push('/campo-prueba')" class="btn btn-warning"> Volver </button>
+    <button @click="$router.push('/admin')" class="btn btn-warning"> Volver </button>
     </div>
   </form>
 </template>

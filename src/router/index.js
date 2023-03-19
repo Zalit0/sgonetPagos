@@ -28,6 +28,16 @@ const router = createRouter({
       beforeEnter: requireClient,
     },
     {
+      path: '/cta-cte/:id',
+      name: 'ctacte',
+      component: () => import('../views/CtaCte.vue'),
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: () => import('../views/PaneldeControl.vue'),
+    },
+    {
       path: '/campo-prueba',
       name: 'campoprueba1',
       component: () => import('../views/CampoPrueba.vue'),
