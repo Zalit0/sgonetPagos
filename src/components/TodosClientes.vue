@@ -124,8 +124,11 @@ const handleReset = clearFilters => {
         </template>
       </span>
       <template v-if="column.key === 'operacion'">
-        <RouterLink :to="`/editClient/${text}`"> Editar </RouterLink>
-        <RouterLink :to="`/cta-cte/${text}`"> Cuenta Corriente </RouterLink>
+      <div class="input-group">
+        <RouterLink :to="`/editClient/${text}`" class="btn btn-sm btn-warning display-6 mx-0 my-1 px-1 py-0"> Editar </RouterLink>
+        <RouterLink :to="`/cta-cte/${text}`" class="btn btn-sm btn-dark display-6 mx-0 my-1 px-1 py-0"> Cuenta Corriente </RouterLink>
+        <button class="btn btn-secondary display-6 mx-0 my-1 px-2 py-0">Eliminar</button>
+      </div>
       </template>
     </template>
 

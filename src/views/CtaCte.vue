@@ -3,6 +3,8 @@ import { ref, onBeforeMount} from "vue";
 import { storeToRefs } from 'pinia';
 import { useRoute, useRouter } from 'vue-router';
 import { useAdminStore } from '../stores/adminStore';
+import { updateDoc, doc } from '@firebase/firestore';
+import {db} from '../firebaseConfig'
 const route= useRoute()
 const router= useRouter()
 const adminStore=useAdminStore()
@@ -21,7 +23,16 @@ const comprobarCliente=()=>{
 
 onBeforeMount(() => {
 comprobarCliente();
-})
+});
+const modificarCta = async (obj) => {
+    try {
+        const docRef = doc(db, 'facturas', obj.id)
+        await updateDoc(docRef,{estado: obj.estado})
+        console.log('actualizando ',docRef)
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 </script>
 <template>

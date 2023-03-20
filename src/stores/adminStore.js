@@ -44,6 +44,15 @@ export const useAdminStore = defineStore('admin', () => {
       clientes.value = await getColeccion('clientes');
       barrios.value = await getColeccion('barrios');
       ctaCte.value= await getColeccion('facturas')
+      ctaCte.value = ctaCte.value.sort((a, b) => {
+        if (a.mes < b.mes) {
+          return -1;
+        }
+        if (a.mes > b.mes) {
+          return 1;
+        }
+        return 0;
+      });
       if (barrios) {
         abonos.value = await getColeccion('abonos');
         ordenar();

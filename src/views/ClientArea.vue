@@ -2,6 +2,12 @@
 import InfoClient from '../components/InfoClient.vue';
 import SectionMsj from '../components/SectionMsj.vue';
 import PagoMes from '../components/PagoMes.vue';
+import { useAdminStore } from '../stores/adminStore';
+import {useUserStore} from '../stores/userStore'
+const adminStore=useAdminStore()
+const {ctaCte}=adminStore
+const userStore=useUserStore()
+const {cliente}=userStore
 </script>
 
 <template>
@@ -23,7 +29,11 @@ import PagoMes from '../components/PagoMes.vue';
         >
           <div class="container">
             <div class="row mt-4">
-              <PagoMes />
+            <template v-for="(cta, index) in ctaCte" :key="index">
+              <div class="item features-image сol-12 col-md-6 col-lg-4" v-if="cta.dni==cliente.id">
+              <PagoMes :cta="cta" />
+              </div>
+            </template>
             </div>
           </div>
         </section>

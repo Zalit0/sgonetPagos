@@ -16,6 +16,7 @@ const anios = [anioAnterior, anioActual, anioSiguiente]
 const mes = ref(meses[hoy.getMonth() + 1])
 const anio = ref(Number(anioActual))
 
+
 const agregarFacturas = () => {
     const vto = mes.value + anio.value
 
@@ -53,6 +54,7 @@ const modificarCta = async (obj) => {
     try {
         const docRef = doc(db, 'facturas', obj.id)
         await updateDoc(docRef,{estado: obj.estado})
+        console.log('actualizando ',docRef)
     } catch (error) {
         console.log(error)
     }
@@ -80,7 +82,8 @@ const modificarCta = async (obj) => {
             </tr>
         </thead>
         <tbody>
-            <tr v-for="cta in ctaCte" :key="cta.id" class="align-items-center">
+        <template v-for="cta in ctaCte" :key="cta.id">
+            <tr v-if="cta.estado!='Pagado'" class="align-items-center">
                 <td>{{ cta.name }}</td>
                 <td>{{ cta.abono }} Megas</td>
                 <td>${{ cta.precio }}</td>
@@ -92,6 +95,7 @@ const modificarCta = async (obj) => {
                         <option value="Vencido">Vencido</option>
                     </select></td>
             </tr>
+        </template>
         </tbody>
 
     </table>
