@@ -4,27 +4,39 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useFirebaseHook } from '../composables/useFirebase';
+import { useAdminStore } from './adminStore';
 
 export const useUserStore = defineStore('users', () => {
+  const adminStore=useAdminStore()
+  const {loginAdmin}=adminStore
   const Firebase = useFirebaseHook();
-  const { getSingle, resultado } = Firebase;
+  const { getSingle} = Firebase;
   const cliente = ref(null);
   const router = useRouter();
   const loading = ref(false);
 
   async function getCliente(dni) {
-    loading.value = true;
-    try {
-      cliente.value=await getSingle('clientes', dni);
-      if (cliente.value) {
-        const resultado = await getSingle('abonos', cliente.value.abono);
-        cliente.value.abono = resultado.name;
-        router.push('/client-area');
+    loading.value = false;
+    if(dni.trim()=='info@opticacroma.com.ar'){
+      dni=dni.trim()
+      const login= await loginAdmin(dni)
+      if(login){
+        alert('ud no es admin')
       }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      loading.value = false;
+    }else{
+
+      try {
+        cliente.value=await getSingle('clientes', dni);
+        if (cliente.value) {
+          const resultado = await getSingle('abonos', cliente.value.abono);
+          cliente.value.abono = resultado.name;
+          router.push('/client-area');
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        loading.value = false;
+      }
     }
   }
 

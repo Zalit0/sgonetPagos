@@ -7,11 +7,20 @@ import {
   setDoc,
   deleteDoc,
 } from "firebase/firestore";
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import { ref } from "vue";
-import { db } from "../firebaseConfig";
-const resultado = ref(null);
+import { db, auth } from "../firebaseConfig";
+import { useAdminStore } from "../stores/adminStore";
+import { storeToRefs } from "pinia";
+
+
 
 export const useFirebaseHook = () => {
+  const adminStore=useAdminStore()
+  const {admin}=storeToRefs(adminStore)
+  const resultado = ref(null);
+
+
   const customAlert = (msj, tipo) => {
     const alertPlaceholder = document.getElementById("liveAlertPlaceholder");
 
@@ -84,8 +93,46 @@ export const useFirebaseHook = () => {
     } catch (e) {
       alert(e);
     }
-}
+};
+const iniciarSesion=async (usuario, pass)=>{
+  try {
+    const { user } = await signInWithEmailAndPassword( auth,
+      usuario,
+      pass
+  );
+  console.log(user.email+''+user.uid)
+  return user.email    
+  } catch (error) {
+    console.log(error)
+    return 'error'
+  }
+};
+const cerrarSesion=async ()=>{
+  try {
+    await signOut(auth)
+    admin.value=null
 
+  } catch (error) {
+    console.log('error al cerrar sesion: '+error)
+  }
+};
+const currentUser=()=>{
+  return new Promise((resolve, reject) => {
+      const unsubcribe = onAuthStateChanged(
+          auth,
+          (user) => {
+              if (user) {
+                  admin.value = user.email
+              }
+              resolve(user);
+          },
+          (e) => reject(e)
+      );
+      // Según la documentación, la función onAuthStateChanged() devuelve
+      // La función de cancelación de suscripción para el observador
+      unsubcribe();
+    });
+  }
 
   return {
     getColeccion,
@@ -95,5 +142,8 @@ export const useFirebaseHook = () => {
     customAlert,
     borrarDoc,
     cargarCtaCte,
+    iniciarSesion,
+    cerrarSesion,
+    currentUser
   };
 };

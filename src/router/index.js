@@ -1,6 +1,8 @@
 import { storeToRefs } from 'pinia';
-import { createRouter, useRoute, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import { useUserStore } from '../stores/userStore';
+import { useFirebaseHook } from '../composables/useFirebase';
+
 
 const requireClient = async (to, from, next) => {
   const userStore = useUserStore();
@@ -12,6 +14,27 @@ const requireClient = async (to, from, next) => {
   }
   userStore.loading = false;
 };
+const requireAuth = async (to,from,next)=>{
+  const firebase=useFirebaseHook()
+  const {currentUser}=firebase
+  const user = await currentUser();
+    if (user) {
+        next();
+    } else {
+        next("/");
+    }
+}
+const onLogin = async (to,from,next)=>{
+  const firebase=useFirebaseHook()
+  const {currentUser}=firebase
+  const user = await currentUser();
+    if (user) {
+      next("/admin");
+    } else {
+      next();
+    }
+}
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +43,7 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: () => import('../views/HomeView.vue'),
+      beforeEnter:onLogin,
     },
     {
       path: '/client-area',
@@ -31,26 +55,31 @@ const router = createRouter({
       path: '/cta-cte/:id',
       name: 'ctacte',
       component: () => import('../views/CtaCte.vue'),
+      beforeEnter:requireAuth,
     },
     {
       path: '/admin',
       name: 'admin',
       component: () => import('../views/PaneldeControl.vue'),
+      beforeEnter:requireAuth,
     },
     {
       path: '/campo-prueba',
       name: 'campoprueba1',
       component: () => import('../views/CampoPrueba.vue'),
+      beforeEnter:requireAuth,
     },
     {
       path: '/editClient',
       name: 'agregarCliente',
       component: () => import('../views/AgregaroEditarCliente.vue'),
+      beforeEnter:requireAuth,
     },
     {
       path: '/editClient/:id',
       name: 'editarCliente',
       component: () => import('../views/AgregaroEditarCliente.vue'),
+      beforeEnter:requireAuth,
     },
   ],
 });

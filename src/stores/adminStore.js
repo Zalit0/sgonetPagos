@@ -1,16 +1,20 @@
 import _default from 'ant-design-vue';
 import { defineStore } from 'pinia';
-import { ref, onBeforeMount } from 'vue';
+import { ref, onBeforeMount, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useFirebaseHook } from '../composables/useFirebase';
 
 export const useAdminStore = defineStore('admin', () => {
   const firebase = useFirebaseHook();
-  const { getColeccion, addDoc, borrarDoc } = firebase;
+  const router=useRouter()
+  const { getColeccion, addDoc, borrarDoc, iniciarSesion } = firebase;
   const clientes = ref([]);
   const barrios = ref([]);
   const abonos = ref([]);
   const ctaCte = ref([]);
   const loading= ref(false)
+  const filtro=ref('')
+  const admin=ref(null)
 
 
 
@@ -48,13 +52,6 @@ export const useAdminStore = defineStore('admin', () => {
       console.log(`Error en cargarAbonos ${e}`);
     }finally{
       loading.value=false
-    }
-  }
-  async function cargarCtaCte(){
-    try {
-      ctaCte.value= await getColeccion('facturas')
-    } catch (error) {
-      console.log(error)
     }
   }
 
@@ -196,6 +193,26 @@ export const useAdminStore = defineStore('admin', () => {
       alert(e);
     }
   };
+  const loginAdmin = async(user)=>{
+    console.log('iniciando login desde el store de admin')
+    let pass=prompt('Ingresa tu contraseña')
+    if(pass){
+      try {
+        const login = await iniciarSesion(user, pass)
+        if (login=='error'){
+          alert('Error Usuario o Contraseña')
+        }
+        else{
+          admin.value=login
+          router.push('/admin')
+        }
+      } catch (error) {
+        
+      }
+    }else{
+      return 'cancel'
+    }
+  }
 
   return {
     clientes,
@@ -203,11 +220,13 @@ export const useAdminStore = defineStore('admin', () => {
     abonos,
     ctaCte,
     loading,
+    admin,
     cargarClientes,
     ordenar,
     eliminarAbono,
     agregarAbono,
     agregarBarrio,
     cargarDatos,
+    loginAdmin
   };
 });

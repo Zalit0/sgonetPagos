@@ -1,42 +1,60 @@
 <script setup>
-import { useFirebaseHook } from '../composables/useFirebase';
+import { ref, onBeforeMount} from "vue";
+import { storeToRefs } from 'pinia';
 import { useRoute, useRouter } from 'vue-router';
-import { ref, onBeforeMount} from 'vue';
-
-
-const firebase = useFirebaseHook()
-const {cargarCtaCte}=firebase
+import { useAdminStore } from '../stores/adminStore';
 const route= useRoute()
 const router= useRouter()
-const cliente=route.params.id
-
-const facturas=ref('')
-
-const cargarFacturas = async()=>{
-    try {
-        facturas.value = await cargarCtaCte(route.params.id)
-        console.log(facturas.value)
-        if (facturas.value.length==0){
-            router.push('/admin')
-        }
-    } catch (error) {
-        console.log(error)
+const adminStore=useAdminStore()
+const {ctaCte, clientes} =storeToRefs(adminStore)
+const cliente = ref(clientes.value.filter(item=>item.id==route.params.id))
+cliente.value= {...cliente.value[0]}
+const facturas= ctaCte.value.filter(item=>item.dni==cliente.value.id)
+const comprobarCliente=()=>{
+    if(cliente.value.name){
+       
+    }
+    else{
+        router.push('/admin')
     }
 }
+
 onBeforeMount(() => {
-    cargarFacturas()
+comprobarCliente();
 })
 
 </script>
 <template>
-    {{ cliente }}
-Facturas:
+<h2>
+</h2>
+<h3>Cliente: {{ cliente.name }}</h3>
 
-<ul>
-<li v-for="( factura, index) in facturas" :key="index">
-{{ factura.mes }} - {{ factura.anio }} - {{ factura.estado }}
-</li>
-</ul>
+        <table class="table table-warning table-sm table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Nombre y Apellido</th>
+                <th> Abono </th>
+                <th> Precio </th>
+                <th>Mes y Año</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="cta in facturas" :key="cta.id" class="align-items-center">
+                <td>{{ cta.name }}</td>
+                <td>{{ cta.abono }} Megas</td>
+                <td>${{ cta.precio }}</td>
+                <td>{{ cta.mes }}</td>
+                <td><select v-model="cta.estado" class="form-select form-select-sm" @change="modificarCta(cta)">
+                        <option value="Pagado">Pagado</option>
+                        <option value="Verificando Pago">Verificando Pago</option>
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Vencido">Vencido</option>
+                    </select></td>
+            </tr>
+        </tbody>
+
+    </table>
         
     
 </template>
