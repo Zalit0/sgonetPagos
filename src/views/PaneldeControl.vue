@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia';
 import AgregarFacturas from '../components/AgregarFacturas.vue';
 import { useAdminStore } from '../stores/adminStore';
 const adminStore=useAdminStore()
-const {clientes,loading} =storeToRefs(adminStore)
+const {loading} =storeToRefs(adminStore)
 
 </script>
 
@@ -28,6 +28,6 @@ const {clientes,loading} =storeToRefs(adminStore)
   </div>
   </div>
   <hr>
-  <TodosClientes :clientes="clientes"></TodosClientes>
+  <TodosClientes></TodosClientes>
 </div>    
 </template>

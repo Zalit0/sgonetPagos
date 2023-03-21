@@ -1,8 +1,14 @@
 <script setup>
 import { ref } from 'vue';
+import { storeToRefs } from 'pinia'
 import { SearchOutlined } from '@ant-design/icons-vue';
+import { useFirebaseHook } from '../composables/useFirebase'
+import { useAdminStore } from "../stores/adminStore";
 
-defineProps(["clientes"])
+const adminStore = useAdminStore()
+const { clientes, ctaCte } = storeToRefs(adminStore)
+const firebase = useFirebaseHook()
+const { borrarDoc } = firebase
 const searchText = ref('')
 const searchedColumn = ref('')
 
@@ -79,13 +85,30 @@ const handleReset = clearFilters => {
   clearFilters({ confirm: true });
   searchText.value = '';
 };
+const eliminarCliente = async (doc) => {
+  try {
+    if (confirm('¿Deseas eliminar este Cliente?')) {
+      borrarDoc('clientes', doc)
+      clientes.value = clientes.value.filter(element => element.id != doc)
+      ctaCte.value.forEach((element)=>{
+        if(element.dni==doc){
+          borrarDoc('facturas',element.id)
+          ctaCte.value=ctaCte.value.filter(item=> item.id != element.id )
+        }
+      })
+    }
+
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 </script>
 
 <template>
   <h1 class="mt-4">Listados de Clientes</h1>
   <hr>
-    <button class="btn btn-danger float-end" @click="$router.push('/editClient')">Agregar Cliente</button>
+  <button class="btn btn-danger float-end" @click="$router.push('/editClient')">Agregar Cliente</button>
 
   <a-table :data-source="clientes" :columns="columns" bordered>
     <template #headerCell="{ column }">
@@ -124,13 +147,15 @@ const handleReset = clearFilters => {
         </template>
       </span>
       <template v-if="column.key === 'operacion'">
-      <div class="input-group">
-        <RouterLink :to="`/editClient/${text}`" class="btn btn-sm btn-warning display-6 mx-0 my-1 px-1 py-0"> Editar </RouterLink>
-        <RouterLink :to="`/cta-cte/${text}`" class="btn btn-sm btn-dark display-6 mx-0 my-1 px-1 py-0"> Cuenta Corriente </RouterLink>
-        <button class="btn btn-secondary display-6 mx-0 my-1 px-2 py-0">Eliminar</button>
-      </div>
+        <div class="input-group">
+          <RouterLink :to="`/editClient/${text}`" class="btn btn-sm btn-warning display-6 mx-0 my-1 px-1 py-0"> Editar
+          </RouterLink>
+          <RouterLink :to="`/cta-cte/${text}`" class="btn btn-sm btn-dark display-6 mx-0 my-1 px-1 py-0"> Cuenta Corriente
+          </RouterLink>
+          <button class="btn btn-sm btn-secondary display-6 mx-0 my-1 px-2 py-0"
+            @click="eliminarCliente(text)">Eliminar</button>
+        </div>
       </template>
     </template>
 
-  </a-table>
-</template>
+</a-table></template>
