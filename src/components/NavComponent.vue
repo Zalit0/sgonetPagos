@@ -29,8 +29,9 @@ const logOut=()=>{
                 <div class="navbar-brand">
                     <span class="navbar-logo">
 
-                        <img src="../assets/images/mbr-121x91.jpg" alt="" title="" style="height: 3.8rem;">
-
+                     <RouterLink to="/pago">
+                       <img src="../assets/images/mbr-121x91.jpg" alt="" title="" style="height: 3.8rem;">
+                     </RouterLink>
                     </span>
                     <span class="navbar-caption-wrap"><span v-if="cliente"
                             class="navbar-caption text-black align-items-center text-transform-capitalize text-primary display-7">Cliente:
