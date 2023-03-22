@@ -64,10 +64,16 @@ const router = createRouter({
       beforeEnter:requireAuth,
     },
     {
+      path: '/pago',
+      name: 'pago',
+      component: () => import('../views/Pago.vue'),
+
+    },
+    {
       path: '/campo-prueba',
       name: 'campoprueba1',
       component: () => import('../views/CampoPrueba.vue'),
-      beforeEnter:requireAuth,
+
     },
     {
       path: '/editClient',
