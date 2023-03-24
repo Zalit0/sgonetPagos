@@ -38,6 +38,7 @@ const onLogin = async (to,from,next)=>{
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  bas: '/',
   routes: [
     {
       path: '/',
@@ -64,10 +65,16 @@ const router = createRouter({
       beforeEnter:requireAuth,
     },
     {
+      path: '/pago',
+      name: 'pago',
+      component: () => import('../views/Pago.vue'),
+
+    },
+    {
       path: '/campo-prueba',
       name: 'campoprueba1',
       component: () => import('../views/CampoPrueba.vue'),
-      beforeEnter:requireAuth,
+
     },
     {
       path: '/editClient',

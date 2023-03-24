@@ -4,8 +4,16 @@ import { useUserStore } from '../stores/userStore';
 import { storeToRefs } from 'pinia';
 const userStore = useUserStore();
 const { getCliente } = userStore
-const { cliente } = storeToRefs(userStore);
+const {cliente}=storeToRefs(userStore)
 const dni = ref(null)
+const obtenerCliente=async (dni)=>{
+  await getCliente(dni)
+    if(cliente.value){
+      
+    }else{
+    alert('El DNI no corresponde a un abonado en Servicio')
+  }
+}
 // const client = ref(null);
 // const getClient = async () => {
 //   const q = query(collection(db, 'clientes/28898654/facturas'), );
@@ -34,7 +42,7 @@ const dni = ref(null)
   <h1 >Por favor ingrese el numero de DNI del abonado.</h1>
   </div>
   </div>
-  <form @submit.prevent="getCliente(dni)">
+  <form @submit.prevent="obtenerCliente(dni)">
   <div class="row justify-content-center">
   <div class=" col-md-12 col-xl-4">
   <input type="text" v-model="dni" class="form-control" placeholder="Ingrese su DNI" aria-label="Ingrese su DNI" aria-describedby="button-addon2">
@@ -45,5 +53,4 @@ const dni = ref(null)
   </div>
   </form>
   </div>
-  {{ cliente }}
 </template>

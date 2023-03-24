@@ -17,7 +17,7 @@ export const useUserStore = defineStore('users', () => {
 
   async function getCliente(dni) {
     loading.value = false;
-    if(dni.trim()=='info@opticacroma.com.ar'){
+    if(dni.trim()=='info@opticacroma.com.ar'|| dni.trim()=='sgonetrmx@gmail.com'){
       dni=dni.trim()
       const login= await loginAdmin(dni)
       if(login){
@@ -30,6 +30,7 @@ export const useUserStore = defineStore('users', () => {
         if (cliente.value) {
           const resultado = await getSingle('abonos', cliente.value.abono);
           cliente.value.abono = resultado.name;
+          localStorage.setItem('cliente', JSON.stringify(cliente.value))
           router.push('/client-area');
         }
       } catch (error) {
@@ -80,6 +81,7 @@ export const useUserStore = defineStore('users', () => {
   //Hacemos el Reset
   function $reset() {
     cliente.value = null;
+    localStorage.removeItem('cliente')
     router.push('/');
   }
 

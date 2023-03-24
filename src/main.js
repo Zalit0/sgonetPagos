@@ -16,6 +16,7 @@ import './assets/css/socicon/css/styles.css'
 import './assets/css/style.css'
 import './assets/css/mbr-additional.css'
 import 'bootstrap/dist/js/bootstrap.min.js';
+
 Aos.init();
 
 const app = createApp(App);
