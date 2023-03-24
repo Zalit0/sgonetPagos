@@ -53,11 +53,11 @@ const agregarFacturas = () => {
                     auto_return: 'all',
                     back_urls: {
                         failure:
-                            'http://localhost:5173/pago',
+                            'https://pagos.santiagonet.com.ar/pago',
                         pending:
-                            'http://localhost:5173/pago',
+                            'https://pagos.santiagonet.com.ar/pago',
                         success:
-                            'http://localhost:5173/pago',
+                            'https://pagos.santiagonet.com.ar/pago',
                     }
                 };
                 try {
@@ -83,6 +83,8 @@ console.log(error)
             async function cargar() {
                 try {
                     const docRef = await addDoc(collection(db, "facturas"), ctaCteNueva)
+                    console.log(docRef)
+                    ctaCte.value.push({id:docRef.id,...ctaCteNueva})
                     console.log('Documento cargado con la id: ', docRef.id)
                     subirAML(docRef)
                 } catch (error) {
@@ -138,6 +140,7 @@ const modificarCta = async (obj) => {
                             <option value="Verificando Pago">Verificando Pago</option>
                             <option value="Pendiente">Pendiente</option>
                             <option value="Vencido">Vencido</option>
+                            <option value="PendienteML">Pendiente MP</option>
                         </select></td>
                 </tr>
             </template>

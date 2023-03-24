@@ -21,7 +21,7 @@ const checkPaymentStatus = async (paymentId) => {
     })
     .catch(error => {
       console.error('Error checking payment status:', error);
-      throw error;
+      return 'fallo'
     })
 }
 

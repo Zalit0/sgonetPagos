@@ -2,16 +2,22 @@
 import { ref } from 'vue';
 import { useUserStore } from '../stores/userStore';
 import { storeToRefs } from 'pinia';
+import { useAdminStore } from '../stores/adminStore';
 const userStore = useUserStore();
 const { getCliente } = userStore
 const {cliente}=storeToRefs(userStore)
+const adminStore=useAdminStore()
+const {admin}=adminStore
 const dni = ref(null)
 const obtenerCliente=async (dni)=>{
   await getCliente(dni)
     if(cliente.value){
       
+    }else if(admin.value){
+      
     }else{
     alert('El DNI no corresponde a un abonado en Servicio')
+
   }
 }
 // const client = ref(null);
