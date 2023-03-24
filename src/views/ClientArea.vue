@@ -1,4 +1,5 @@
 <script setup>
+
 import InfoClient from '../components/InfoClient.vue';
 import SectionMsj from '../components/SectionMsj.vue';
 import PagoMes from '../components/PagoMes.vue';
@@ -8,6 +9,7 @@ const adminStore=useAdminStore()
 const {ctaCte}=adminStore
 const userStore=useUserStore()
 const {cliente}=userStore
+
 </script>
 
 <template>

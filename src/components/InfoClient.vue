@@ -1,4 +1,10 @@
 <script setup>
+import { storeToRefs } from 'pinia';
+import { useUserStore } from '../stores/userStore';
+
+const userStore=useUserStore()
+const {cliente}=storeToRefs(userStore)
+
 const popUp = (URL) => {
   window.open(
     URL,
@@ -70,7 +76,7 @@ const popUp = (URL) => {
             </div>
             <div class="text-box">
               <h5 class="icon-text mbr-black mbr-fonts-style display-4">
-                <a class="btn btn-success btn-sm"
+                <a @click="popUp(`https://api.whatsapp.com/send?phone=+543855212030&text=Hola!!%20Mi%20nombre%20es%20${cliente.name}%20y%20quisiera%20pedir%20un%20cambio%20de%20servicio.%20Actualmente%20tengo%20el%20abono%20de%20${cliente.abono}.%20Aguardo%20su%20respuesta.%20Muchas%20Gracias!`)" class="btn btn-success btn-sm"
                   >Solicitar o Modificar Servicios</a
                 >
               </h5>
