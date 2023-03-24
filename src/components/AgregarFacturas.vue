@@ -65,7 +65,7 @@ const agregarFacturas = () => {
                     {
                         method:'POST',
                         headers:{
-                            Authorization : 'Bearer TEST-1832942212664586-032214-893fff97eba29660b6e2b634a5d13443-1333094029',
+                            Authorization : 'Bearer APP_USR-8339804475849150-032217-a6db7bf1214748e98287073dbb5742e3-91771248',
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify(paymentData)
