@@ -21,6 +21,7 @@ const checkPaymentStatus = async (paymentId) => {
     })
     .catch(error => {
       console.error('Error checking payment status:', error);
+      estado.value='Pendiente'
       return 'fallo'
     })
 }
