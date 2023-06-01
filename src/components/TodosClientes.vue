@@ -159,3 +159,8 @@ const eliminarCliente = async (doc) => {
     </template>
 
 </a-table></template>
+<style>
+.input-group{
+  z-index: 0;
+}
+</style>

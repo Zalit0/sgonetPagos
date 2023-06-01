@@ -141,6 +141,7 @@ const modificarCta = async (obj) => {
                             <option value="Pendiente">Pendiente</option>
                             <option value="Vencido">Vencido</option>
                             <option value="PendienteML">Pendiente MP</option>
+                            <option value="Sin Cargo">Sin Cargo</option>
                         </select></td>
                 </tr>
             </template>

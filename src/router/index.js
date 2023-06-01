@@ -88,6 +88,12 @@ const router = createRouter({
       component: () => import('../views/AgregaroEditarCliente.vue'),
       beforeEnter:requireAuth,
     },
+    {
+      path: '/cta-cte/agregarUnaFactura/:id',
+      name: 'agregarUnaFactura',
+      component: () => import('../views/AgregarUnaFactura.vue'),
+      beforeEnter:requireAuth,
+    },
   ],
 });
 export default router;
