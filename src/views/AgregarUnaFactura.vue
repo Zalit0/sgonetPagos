@@ -84,6 +84,7 @@ const agregarFactura = () => {
             ctaCte.value.push({ id: docRef.id, ...ctaCteNueva.value })
             console.log('Documento cargado con la id: ', docRef.id)
             subirAML(docRef)
+            router.push('/cta-cte/'+cliente.value.id)
         } catch (error) {
             console.log(error)
         }
